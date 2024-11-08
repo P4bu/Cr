@@ -1,9 +1,9 @@
 import React from 'react'
 
-const editRestaurant = () => {
+const EditRestaurant = () => {
   return (
-    <div>editRestaurant</div>
+    <div>EditRestaurant</div>
   )
 }
 
-export default editRestaurant
+export default EditRestaurant

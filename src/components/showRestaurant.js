@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { collection, getDocs,getDoc, deleteDoc  } from 'firebase/firestore' 
+import { collection, getDocs,getDoc, deleteDoc, doc  } from 'firebase/firestore' 
 import { db } from '../firebaseConfig/firebase'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -17,11 +17,11 @@ const ShowRestaurant = () => {
     // 3. funcion para mostrar todos los doc
     const getRestaurants = async() => {
        const data = await getDocs(restaurantsCollection)
-       // console.log(data.docs)
+       console.log(data.docs)
        setRestaurants(
         data.docs.map( (doc) => ( {...doc.data(), id:doc.id}))
        )
-       console.log(restaurants) 
+       console.log('Estoy aca',restaurants) 
     }
     // 4. funcion para eliminar doc
     const deleteRestaurant = async (id) => {
@@ -36,6 +36,15 @@ const ShowRestaurant = () => {
     }, [])
     // 7. devolvemos la lista de nuesto componente
 
+    // 8. funcion para formatear la fecha
+    const formatDate = (timestamp) => {
+        if (timestamp) {
+            // Convierte el timestamp de Firestore a un objeto Date
+            const date = timestamp.toDate()
+            return date.toLocaleDateString()  // Devuelve la fecha en formato 'dd/mm/yyyy'
+        }
+        return ''
+    }
 
   return (
     <>
@@ -56,16 +65,19 @@ const ShowRestaurant = () => {
                         </tr>
                     </thead>
                     <tbody>
+                        
                         { restaurants.map( (restaurant) => {
-                            <tr key={restaurant.id}>
-                                <td>{restaurant.nombre_restaurant}</td>
-                                <td>{restaurant.fecha_creacion}</td>
-                                <td>{restaurant.activo}</td>
-                                <td>
-                                    <link to={`/CreateRestaurant/${restaurant.id}`} className='btn btn-light'><i className="fa-thin fa-comment-pen"></i></link>
-                                    <button onClick={() => deleteRestaurant(restaurant.id)} className='btn btn-danger'><i className="fa-solid fa-comment-xmark"></i></button>
-                                </td>
-                            </tr>
+                            return (
+                                <tr key={restaurant.id}>
+                                    <td>{restaurant.nombre_restaurant}</td>
+                                    <td>{formatDate(restaurant.fecha_creacion)}</td>
+                                    <td>{restaurant.activo ? 'Activo' : 'Cerrado'}</td>
+                                    <td>
+                                        <Link to={`/CreateRestaurant/${restaurant.id}`} className='btn btn-warning'><i class="fa-solid fa-pen-to-square"></i></Link>
+                                        <button onClick={() => deleteRestaurant(restaurant.id)} className='btn btn-danger'><i class="fa-solid fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+                            )
                         }) }
                     </tbody>
                 </table>

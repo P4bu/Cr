@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import ShowRestaurant from './components/ShowRestaurant'
-import CreateRestaurant from './components/CreateRestaurant'
-import EditRestaurant from './components/EditRestaurant'
+import ShowRestaurant from './components/ShowRestaurant';
+import CreateRestaurant from './components/CreateRestaurant';
+import EditRestaurant from './components/EditRestaurant';
 
 
 function App() {
