@@ -9,7 +9,7 @@ import EditRestaurant from './components/EditRestaurant';
 function App() {
   return (
     <div className="App">
-      <h1>Hola Restaurants!</h1>
+      {/* <h1>Hola Restaurants!</h1> */}
       <BrowserRouter>
         <Routes>
           <Route path='/' element={ <ShowRestaurant/>}></Route>

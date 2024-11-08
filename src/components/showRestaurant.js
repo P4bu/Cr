@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { collection, getDocs,getDoc, deleteDoc, doc  } from 'firebase/firestore' 
+import { collection, getDocs, getDoc, deleteDoc, doc  } from 'firebase/firestore' 
 import { db } from '../firebaseConfig/firebase'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -34,14 +34,14 @@ const ShowRestaurant = () => {
     useEffect( () => {
         getRestaurants()
     }, [])
-    // 7. devolvemos la lista de nuesto componente
+    // 7. devueleve la lista de nuesto componente
 
     // 8. funcion para formatear la fecha
     const formatDate = (timestamp) => {
         if (timestamp) {
-            // Convierte el timestamp de Firestore a un objeto Date
+            
             const date = timestamp.toDate()
-            return date.toLocaleDateString()  // Devuelve la fecha en formato 'dd/mm/yyyy'
+            return date.toLocaleDateString() 
         }
         return ''
     }
@@ -52,7 +52,7 @@ const ShowRestaurant = () => {
         <div className='row'>
             <div className='col'>
                 <div className='d-grid gap-2'>
-                    <Link to="/CreateRestaurant" className='btn btn-secondary mt-2 mb-2'>Create</Link>
+                    <Link to="/CreateRestaurant" className='btn btn-success mt-2 mb-2'>Create</Link>
                 </div>
 
                 <table className='table table-light table-hover'>
@@ -73,7 +73,7 @@ const ShowRestaurant = () => {
                                     <td>{formatDate(restaurant.fecha_creacion)}</td>
                                     <td>{restaurant.activo ? 'Activo' : 'Cerrado'}</td>
                                     <td>
-                                        <Link to={`/CreateRestaurant/${restaurant.id}`} className='btn btn-warning'><i class="fa-solid fa-pen-to-square"></i></Link>
+                                        <Link to={`/EditRestaurant/${restaurant.id}`} className='btn btn-warning'><i class="fa-solid fa-pen-to-square"></i></Link>
                                         <button onClick={() => deleteRestaurant(restaurant.id)} className='btn btn-danger'><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
