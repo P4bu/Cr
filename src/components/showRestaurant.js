@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { collection, getDocs, getDoc, deleteDoc, doc  } from 'firebase/firestore' 
+import { collection, getDocs, getDoc, deleteDoc, doc, Timestamp  } from 'firebase/firestore' 
 import { db } from '../firebaseConfig/firebase'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -30,6 +30,26 @@ const ShowRestaurant = () => {
        getRestaurants()
     }
     // 5. funcion para sweetAlert
+    const confirmDelete = (id) => {
+          MySwal.fire({
+            title: "¿Estas seguro?",
+            text: "No podras revertir este cambio",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, estoy seguro"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                deleteRestaurant(id)
+              Swal.fire({
+                title: "Eliminado",
+                text: "Tu producto a sido eliminado",
+                icon: "success"
+            })
+            }
+          })
+        }
     // 6. usamos useEffect
     useEffect( () => {
         getRestaurants()
@@ -38,7 +58,7 @@ const ShowRestaurant = () => {
 
     // 8. funcion para formatear la fecha
     const formatDate = (timestamp) => {
-        if (timestamp) {
+        if (timestamp && timestamp.toDate) {
             
             const date = timestamp.toDate()
             return date.toLocaleDateString() 
@@ -74,7 +94,7 @@ const ShowRestaurant = () => {
                                     <td>{restaurant.activo ? 'Activo' : 'Cerrado'}</td>
                                     <td>
                                         <Link to={`/EditRestaurant/${restaurant.id}`} className='btn btn-warning'><i class="fa-solid fa-pen-to-square"></i></Link>
-                                        <button onClick={() => deleteRestaurant(restaurant.id)} className='btn btn-danger'><i class="fa-solid fa-trash-can"></i></button>
+                                        <button onClick={() => confirmDelete(restaurant.id)} className='btn btn-danger'><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
                             )
